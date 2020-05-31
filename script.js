@@ -41,6 +41,28 @@ var questions = [
 function startGame(){
     score = 0;
     timeRemaining = 50;
+    generateAnswerList(0);
+}
+
+function generateAnswerList(questionNumber){
+    var questionDetails = questions[questionNumber];
+    var answerList = $("<ol>");
+    answerList.click(pickedAnswer);
+    answerList.attr("question-index", questionNumber);
+    topRow.empty().append($("<h1>").text(questionDetails.question));
+    for(var i = 0; i < questionDetails.answers.length; i++) {
+        var li = $("<li>")
+        li.attr("answer-index", i);
+        li.addClass("btn btn-primary btn-lg btn-block");
+        li.text(questionDetails.answers[i]);
+        answerList.append(li);
+    }
+    middleRow.empty().append(answerList);
+    bottomRow.empty();
+}
+
+function pickedAnswer(event){
+
 }
 
 function displayWelcomeScreen(){
