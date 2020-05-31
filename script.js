@@ -37,3 +37,29 @@ var questions = [
         answer: 3
     }
 ];
+
+function startGame(){
+    score = 0;
+    timeRemaining = 50;
+}
+
+function displayWelcomeScreen(){
+    score = 0;
+    timeRemaining = 50;
+    var title  = $("<h5>").text("Coding Quiz Challenge");
+    title.addClass("card-title");
+    topRow.empty().append(title);
+
+    var instructions = $("<p>").text("Try to answer the questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds");
+    instructions.addClass("card-text");
+    middleRow.empty().append(instructions);
+
+    var startButton = $("<button>");
+    startButton.text("Start Quiz");
+    startButton.addClass("btn btn-primary mb-2");
+    startButton.click(startGame);
+    bottomRow.empty().append(startButton);
+    $("#timerDiv").text(timeRemaining+"s");
+}
+
+displayWelcomeScreen();
