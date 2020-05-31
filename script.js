@@ -106,8 +106,15 @@ function showGameScores(){
     var button = $('<button>');
     button.text('Add');
     button.addClass("btn btn-primary mb-2");
-    
+    button.click(addHighScorer);
     bottomRow.append(button);
+}
+
+function addHighScorer(event){
+    var name = $("#hScorerName").val();
+    highscores.push(name+": "+score);
+    localStorage.setItem("QuizHighscores", JSON.stringify(highscores));
+    showHighScores();
 }
 
 function displayWelcomeScreen(){
