@@ -42,6 +42,7 @@ function startGame(){
     score = 0;
     timeRemaining = 50;
     generateAnswerList(0);
+    interval = setInterval(decrementTimer, 1000);
 }
 
 function generateAnswerList(questionNumber){
@@ -149,6 +150,15 @@ function clearHighScores(){
     highscores = [];
     localStorage.setItem("QuizHighscores", JSON.stringify(highscores));
     displayWelcomeScreen();
+}
+
+function decrementTimer(){
+    timeRemaining--;
+    if(timeRemaining <= 0) {
+        timeRemaining = 0;
+        showGameScores();
+    }
+    $("#timerDiv").text(timeRemaining+"s");
 }
 
 function displayWelcomeScreen(){
