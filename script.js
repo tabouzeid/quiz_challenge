@@ -145,6 +145,12 @@ function showHighScores(){
     bottomRow.append(clearHighScoresBtn);
 }
 
+function clearHighScores(){
+    highscores = [];
+    localStorage.setItem("QuizHighscores", JSON.stringify(highscores));
+    displayWelcomeScreen();
+}
+
 function displayWelcomeScreen(){
     score = 0;
     timeRemaining = 50;
