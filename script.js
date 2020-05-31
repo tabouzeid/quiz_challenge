@@ -117,6 +117,34 @@ function addHighScorer(event){
     showHighScores();
 }
 
+function showHighScores(){
+    var title = $("<h5>");
+    title.text("Highscores:");
+    title.addClass("card-title");
+    topRow.empty().append(title);
+
+    var list = $("<ul>");
+    middleRow.empty().append(list);
+    highscores.forEach(score => {
+        var item = $("<li>");
+        item.addClass("btn btn-light btn-lg btn-block");
+        item.text(score);
+        list.append(item);
+    });
+
+    var newGame = $("<button>");
+    newGame.text("New Game");
+    newGame.addClass("btn btn-primary mb-2");
+    newGame.click(displayWelcomeScreen);
+    bottomRow.empty().append(newGame);
+
+    var clearHighScoresBtn = $("<button>");
+    clearHighScoresBtn.text("Clear High Scores");
+    clearHighScoresBtn.addClass("btn btn-primary mb-2");
+    clearHighScoresBtn.click(clearHighScores);
+    bottomRow.append(clearHighScoresBtn);
+}
+
 function displayWelcomeScreen(){
     score = 0;
     timeRemaining = 50;
