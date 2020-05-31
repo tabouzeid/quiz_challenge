@@ -1,1 +1,2 @@
-# quiz_challenge
+# Quiz Challenge
+This is a quiz challenge written in Javascript. The challenge consists of 5 questions about coding. You will have 10s of time to answer per question. if you answer incorrectly you will 10 seconds deducted from your remaining time and your score will be reduced by 1. At the end you will have the ability to add your score to the high score page.
