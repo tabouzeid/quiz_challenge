@@ -62,7 +62,52 @@ function generateAnswerList(questionNumber){
 }
 
 function pickedAnswer(event){
+    var question = parseInt(event.currentTarget.getAttribute("question-index"));
+    var pick = parseInt(event.target.getAttribute("answer-index"));
+    var isCorrect = pick == questions[question].answer;
+    
+    if(isCorrect){
+        score++;
+    } else {
+        score--;
+        timeRemaining-=10;
+    }
+    
+    if(question == questions.length-1){
+        showGameScores();
+    } else {
+        generateAnswerList(question+1);
+    }
+}
 
+function showGameScores(){
+    if(interval  != undefined){
+        clearInterval(interval);
+        interval = undefined;    
+    }
+
+    var allDone = $("<h5>").text("All Done!");
+    allDone.addClass("card-title");
+    topRow.empty().append(allDone);
+
+    var scoreTxt = $("<p>").text("Your final Score is: "+score);
+    scoreTxt.addClass("card-text");
+    middleRow.empty().append(scoreTxt);
+
+    var label = $("<label>");
+    label.text("Please enter your name:");
+    label.addClass("col-form-label");
+    bottomRow.empty().append(label);
+    var input = $("<input>");
+    input.attr('type', 'text');
+    input.addClass("form-control");
+    input.attr('id', 'hScorerName');
+    bottomRow.append(input);
+    var button = $('<button>');
+    button.text('Add');
+    button.addClass("btn btn-primary mb-2");
+    
+    bottomRow.append(button);
 }
 
 function displayWelcomeScreen(){
