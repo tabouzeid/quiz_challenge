@@ -6,7 +6,7 @@ var score = 0;
 var timeRemaining = 50;
 var interval;
 var highscores = JSON.parse(localStorage.getItem("QuizHighscores"));
-if(highscores == undefined){
+if (highscores == undefined) {
     highscores = [];
 }
 
@@ -15,12 +15,12 @@ var questions = [
         question: "Commonly used data types DO NOT include: ",
         answers: ["strings", "booleans", "alerts", "numbers"],
         answer: 2
-    }, 
-    {   
+    },
+    {
         question: "A very useful tool during development and debugging for printing content to the debugger is: ",
         answers: ["Javascript", "terminal / bash", "for keeps", "console.log"],
         answer: 3
-    }, 
+    },
     {
         question: "String values must be enclosed within ______ when being assigned to a variable.",
         answers: ["commas", "curly brackets", "quotes", "parentheses"],
@@ -30,7 +30,7 @@ var questions = [
         question: "The condition in an if / else statement is enclosed within ______.",
         answers: ["quotes", "curly brackets", "parentheses", "square brackets"],
         answer: 1
-    }, 
+    },
     {
         question: "Arrays in Javascript can be used to store",
         answers: ["numbers and strings", "other arrays", "booleans", "all of the above"],
@@ -38,20 +38,32 @@ var questions = [
     }
 ];
 
-function startGame(){
+function startGame() {
     score = 0;
-    timeRemaining = 50;
     generateAnswerList(0);
+    startTimer();
+}
+
+function startTimer(){
+    timeRemaining = 50;
     interval = setInterval(decrementTimer, 1000);
 }
 
-function generateAnswerList(questionNumber){
+function stopTimer(){
+    if (interval != undefined) {
+        clearInterval(interval);
+        interval = undefined;
+    }
+    timeRemaining = 50;
+}
+
+function generateAnswerList(questionNumber) {
     var questionDetails = questions[questionNumber];
     var answerList = $("<ol>");
     answerList.click(pickedAnswer);
     answerList.attr("question-index", questionNumber);
     topRow.empty().append($("<h1>").text(questionDetails.question));
-    for(var i = 0; i < questionDetails.answers.length; i++) {
+    for (var i = 0; i < questionDetails.answers.length; i++) {
         var li = $("<li>")
         li.attr("answer-index", i);
         li.addClass("btn btn-primary btn-lg btn-block");
@@ -62,41 +74,39 @@ function generateAnswerList(questionNumber){
     bottomRow.empty();
 }
 
-function pickedAnswer(event){
+function pickedAnswer(event) {
     var question = parseInt(event.currentTarget.getAttribute("question-index"));
     var pick = parseInt(event.target.getAttribute("answer-index"));
     var isCorrect = pick == questions[question].answer;
-    
-    var rightOrWrong = "Correct!";
-    if(isCorrect){
+
+    var rightOrWrong = $("<p>").text("Correct!");
+    rightOrWrong.addClass("card-footer");
+    if (isCorrect) {
         score++;
     } else {
         score--;
-        timeRemaining-=10;
-        rightOrWrong = "Wrong!"
+        timeRemaining -= 10;
+        rightOrWrong.text("Wrong!");
     }
-    bottomRow.text(rightOrWrong);
-    
-    setTimeout(function() {
-        if(question == questions.length-1){
+    bottomRow.append(rightOrWrong);
+
+    setTimeout(function () {
+        if (question == questions.length - 1) {
             showGameScores();
         } else {
-            generateAnswerList(question+1);
+            generateAnswerList(question + 1);
         }
     }, 500);
 }
 
-function showGameScores(){
-    if(interval  != undefined){
-        clearInterval(interval);
-        interval = undefined;    
-    }
+function showGameScores() {
+    stopTimer();
 
     var allDone = $("<h5>").text("All Done!");
     allDone.addClass("card-title");
     topRow.empty().append(allDone);
 
-    var scoreTxt = $("<p>").text("Your final Score is: "+score);
+    var scoreTxt = $("<p>").text("Your final Score is: " + score);
     scoreTxt.addClass("card-text");
     middleRow.empty().append(scoreTxt);
 
@@ -116,14 +126,14 @@ function showGameScores(){
     bottomRow.append(button);
 }
 
-function addHighScorer(event){
+function addHighScorer(event) {
     var name = $("#hScorerName").val();
-    highscores.push(name+": "+score);
+    highscores.push(name + ": " + score);
     localStorage.setItem("QuizHighscores", JSON.stringify(highscores));
     showHighScores();
 }
 
-function showHighScores(){
+function showHighScores() {
     var title = $("<h5>");
     title.text("Highscores:");
     title.addClass("card-title");
@@ -151,25 +161,25 @@ function showHighScores(){
     bottomRow.append(clearHighScoresBtn);
 }
 
-function clearHighScores(){
+function clearHighScores() {
     highscores = [];
     localStorage.setItem("QuizHighscores", JSON.stringify(highscores));
     displayWelcomeScreen();
 }
 
-function decrementTimer(){
+function decrementTimer() {
     timeRemaining--;
-    if(timeRemaining <= 0) {
+    if (timeRemaining <= 0) {
         timeRemaining = 0;
         showGameScores();
     }
-    $("#timerDiv").text(timeRemaining+"s");
+    $("#timerDiv").text(timeRemaining + "s");
 }
 
-function displayWelcomeScreen(){
+function displayWelcomeScreen() {
     score = 0;
     timeRemaining = 50;
-    var title  = $("<h5>").text("Coding Quiz Challenge");
+    var title = $("<h5>").text("Coding Quiz Challenge");
     title.addClass("card-title");
     topRow.empty().append(title);
 
@@ -182,7 +192,7 @@ function displayWelcomeScreen(){
     startButton.addClass("btn btn-primary mb-2");
     startButton.click(startGame);
     bottomRow.empty().append(startButton);
-    $("#timerDiv").text(timeRemaining+"s");
+    $("#timerDiv").text(timeRemaining + "s");
 }
 
 displayWelcomeScreen();
