@@ -67,18 +67,23 @@ function pickedAnswer(event){
     var pick = parseInt(event.target.getAttribute("answer-index"));
     var isCorrect = pick == questions[question].answer;
     
+    var rightOrWrong = "Correct!";
     if(isCorrect){
         score++;
     } else {
         score--;
         timeRemaining-=10;
+        rightOrWrong = "Wrong!"
     }
+    bottomRow.text(rightOrWrong);
     
-    if(question == questions.length-1){
-        showGameScores();
-    } else {
-        generateAnswerList(question+1);
-    }
+    setTimeout(function() {
+        if(question == questions.length-1){
+            showGameScores();
+        } else {
+            generateAnswerList(question+1);
+        }
+    }, 500);
 }
 
 function showGameScores(){
